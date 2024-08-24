@@ -86,3 +86,59 @@ button:hover{
     font-size: 24px;
     
 }
+
+/* section styling */
+.latestProducts{
+    font-size: 28px;
+    text-align: center;
+    padding-top: 20px;
+}
+.latestProducts hr{
+    width: 95%;
+    
+}
+
+.categories{
+    margin: 0 40px;
+}
+#category-section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.categories ul li{
+    list-style-type: none;
+    margin: 20px;
+    border: 1px solid grey;
+    border-radius: 3px;
+    padding: 20px;
+    
+}
+.categories li:hover{
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
+
+/* Product container styling */
+.productContainer{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    
+}
+.product-card{
+    margin: 0 auto;
+    border: 1px solid grey;
+    border-radius: 5px;
+    width: calc(30% - 60px); /* provides 3 cards per row */
+    background-color: #fff;
+    padding: 15px;
+
+}
+.product-card img{
+    width: 70%;
+    height: 600px;
+    border-radius: 5px;
+}
