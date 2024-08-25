@@ -21,7 +21,9 @@ document.addEventListener("DOMContentLoaded", function(){
             <img src="${product.image}" alt="${product.title}">
             <h3>${product.title}</h3>
             <p>${product.description}</p>
-            <p>$${product.price}</p>
+            <hr>
+            <p class="price">$${product.price}</p>
+            <hr>
             <button>Details</button>
             <button>Add to Cart</button>
             `;
