@@ -1,10 +1,11 @@
+import { displayProductDetails } from "./product.js";
+
 document.addEventListener("DOMContentLoaded", function(){
     const productContainer = document.querySelector('.productContainer');
     const categorySection = document.getElementById('category-section');
-    const productsTab = document.querySelector('.navbar ul li:nth-child(2) a');
+    const productsTab = document.querySelector('.navbar ul li:nth-child(2) a'); // selects 2nd anchor tag in the nav-list.
     const heroSection = document.getElementById('hero-section');
     const productsSection = document.getElementById('products-section');
-
     let allProducts = []; // fetched products will be stored into an empty array.
 
     // fetching products from the API
@@ -27,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function(){
             <hr>
             <p class="price">$${product.price}</p>
             <hr>
-            <button>Details</button>
+            <button class="detailsBtn" data-product-id="${product.id}">Details</button>
             <button>Add to Cart</button>
             `;
      
@@ -38,10 +39,12 @@ document.addEventListener("DOMContentLoaded", function(){
         // function to render products into the product card.
         function renderProducts(products){
             productContainer.innerHTML = ''; 
-            products.forEach(product => {
-                const productCard = createProductCard(product);
+            // using map to create an array of cards.
+            const productCards = products.map(product=> createProductCard(product));
+            // using forEach to append each card item to the container.
+            productCards.forEach(productCard => {
                 productContainer.appendChild(productCard);
-                // console.log(productContainer);
+                console.log(productCard);
             });
         }
 
@@ -68,6 +71,14 @@ document.addEventListener("DOMContentLoaded", function(){
             heroSection.style.display = 'none'; // hides hero section
             productsSection.style.display = 'block'; // show products section
         })    
-});
 
-// import{createProductCard, renderProducts} from "./product.js";
+        //adding event listener to the Details button
+        productContainer.addEventListener('click', function(e){
+            if(e.target.classList.contains('detailsBtn')){
+                const productId = parseInt(e.target.getAttribute('data-product-id'));
+                heroSection.style.display = 'none';
+               displayProductDetails(productId);
+    
+                }
+    });
+});

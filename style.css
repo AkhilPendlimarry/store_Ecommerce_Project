@@ -132,7 +132,7 @@ button:hover{
     margin: 0 auto;
     border: 1px solid grey;
     border-radius: 5px;
-    width: calc(25% - 80px); /* provides 4 cards per row. */
+    width: calc(25% - 40px); /* provides 4 cards per row. */
     background-color: #fff;
     padding: 15px;
     text-align: center;
@@ -172,5 +172,24 @@ button:hover{
     cursor: pointer;
 }
 .product-card button:hover{
-    background-color: blue;
+    background-color: rgb(50, 50, 51);
+}
+
+.productDetails {
+    text-align: center;
+}
+
+.productDetails img {
+    width: 30%;
+    height: 600px;
+}
+
+.productDetails p {
+    font-size: 26px;
+}
+
+.productDetails button {
+    margin:10px 20px;
+    padding: 20px;
+    font-size: 24px;
 }
