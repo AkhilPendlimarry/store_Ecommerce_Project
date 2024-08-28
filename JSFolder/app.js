@@ -1,4 +1,5 @@
-import { displayProductDetails } from "./product.js";
+import { generateProductCards, displayProductDetails } from "./product.js";
+
 
 document.addEventListener("DOMContentLoaded", function(){
     const productContainer = document.querySelector('.productContainer');
@@ -6,6 +7,10 @@ document.addEventListener("DOMContentLoaded", function(){
     const productsTab = document.querySelector('.navbar ul li:nth-child(2) a'); // selects 2nd anchor tag in the nav-list.
     const heroSection = document.getElementById('hero-section');
     const productsSection = document.getElementById('products-section');
+    const latestProductSection = document.getElementById('latest-section');
+    const HR = document.getElementById('hr');
+    
+
     let allProducts = []; // fetched products will be stored into an empty array.
 
     // fetching products from the API
@@ -29,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function(){
             <p class="price">$${product.price}</p>
             <hr>
             <button class="detailsBtn" data-product-id="${product.id}">Details</button>
-            <button>Add to Cart</button>
+            <button id="add-to-cart">Add to Cart</button>
             `;
      
             return productCard;
@@ -44,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function(){
             // using forEach to append each card item to the container.
             productCards.forEach(productCard => {
                 productContainer.appendChild(productCard);
-                console.log(productCard);
+                //console.log(productCard);
             });
         }
 
@@ -77,8 +82,13 @@ document.addEventListener("DOMContentLoaded", function(){
             if(e.target.classList.contains('detailsBtn')){
                 const productId = parseInt(e.target.getAttribute('data-product-id'));
                 heroSection.style.display = 'none';
+                latestProductSection.style.display = 'none';
+                HR.style.display = 'none';
+                categorySection.style.display = 'none';
+
                displayProductDetails(productId);
+               generateProductCards(productId);
     
-                }
+            }
     });
 });

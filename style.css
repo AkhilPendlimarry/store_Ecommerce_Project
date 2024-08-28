@@ -132,7 +132,7 @@ button:hover{
     margin: 0 auto;
     border: 1px solid grey;
     border-radius: 5px;
-    width: calc(25% - 40px); /* provides 4 cards per row. */
+    width: calc(25% - 40px); /* provides 3 cards per row. */
     background-color: #fff;
     padding: 15px;
     text-align: center;
@@ -175,21 +175,105 @@ button:hover{
     background-color: rgb(50, 50, 51);
 }
 
+/* Detailed view section styling */
 .productDetails {
-    text-align: center;
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+    width: 80%;
+    margin: 0 auto;
+    justify-content: space-evenly;
+    padding: 15px;
+    gap: 30px;
 }
 
-.productDetails img {
-    width: 30%;
-    height: 600px;
+.image-container {
+    flex-grow: 1;
+    max-width: 40%;
+    text-align: left;
+    
+}
+.image-container img{
+    width: 80%;
+    height: auto;
+    margin-left: 20px;
+
+}
+.contentBox{
+    flex-grow: 2;
+    padding: 20px;
+    text-align: left;
+}
+.productDetails h2{
+    text-transform: uppercase;
+    font-size: 32px;
 }
 
-.productDetails p {
-    font-size: 26px;
+h1{
+    font-size: 60px;
+    font-weight: 100;
 }
 
+p {
+    font-size: 30px;
+}
 .productDetails button {
     margin:10px 20px;
     padding: 20px;
     font-size: 24px;
+    border: 2px solid black;
+    border-radius: 8px;
+}
+/* carousel scrolling */
+.container {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+}
+
+.product-cards {
+    display: block;
+    /* This will lasts the animation for 15 seconds and repeats infinitely */
+    animation: scroll 15s infinite;  
+
+}
+
+.card {
+    display: inline-block;
+    width: 800px;
+    height: 600px;
+    margin-right: 20px;
+    vertical-align: super;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 20px;
+    border: 2px solid grey;
+}
+.card img{
+    height: 400px;
+}
+.card h2{
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.card button{
+    padding: 20px;
+    margin: 10px;
+    border-radius: 5px;
+    font-size: 26px;
+}
+
+.container:hover .product-cards {
+    animation-play-state: paused;
+}
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
 }
