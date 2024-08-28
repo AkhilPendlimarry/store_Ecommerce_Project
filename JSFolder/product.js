@@ -23,7 +23,7 @@ async function generateProductCards() {
 
         if (Object.keys(product).length) {
             const card = document.createElement('div');
-            card.classList.add('card');
+            card.classList.add('card', 'product-card');
 
             card.innerHTML = `
                 <img src="${product.image}" alt="${product.title}">
@@ -37,6 +37,21 @@ async function generateProductCards() {
             console.error(`Product with ID ${id} not found.`);
         }
     }
+    enableScrolling(container);
+}
+function enableScrolling(container){
+    const productCards = document.querySelectorAll('.product-card');
+
+    productCards.forEach(card =>{
+        const clone=card.cloneNode(true);
+        container.appendChild(clone);
+    });
+    container.addEventListener('scroll', function(){
+        
+        if(container.scrollLeft >= (container.scrollWidth / 2)){
+            container.scrollLeft = 0;
+        }
+    });
 }
 
 // funtion to display product Detailed View.

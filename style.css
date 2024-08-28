@@ -178,26 +178,29 @@ button:hover{
 /* Detailed view section styling */
 .productDetails {
     display: flex;
+    justify-content: center;
     align-items: center;
     max-width: 100%;
-    width: 80%;
-    margin: 0 auto;
+    margin: 10px auto;
     justify-content: space-evenly;
-    padding: 15px;
+    padding: 25px;
     gap: 30px;
 }
 
-.image-container {
+ .image-container {
     flex-grow: 1;
-    max-width: 40%;
-    text-align: left;
+    width: 90%;
+    height: auto;
+    margin-right: 20px;
+    align-items: center; 
     
 }
 .image-container img{
-    width: 80%;
-    height: auto;
+    max-width: 100%;
+    height: 600px;
+    object-fit: cover; 
+    display: block;
     margin-left: 20px;
-
 }
 .contentBox{
     flex-grow: 2;
@@ -213,7 +216,6 @@ h1{
     font-size: 60px;
     font-weight: 100;
 }
-
 p {
     font-size: 30px;
 }
@@ -224,7 +226,9 @@ p {
     border: 2px solid black;
     border-radius: 8px;
 }
+
 /* carousel scrolling */
+
 .container {
     width: 100%;
     overflow: hidden;
@@ -235,14 +239,12 @@ p {
 .product-cards {
     display: block;
     /* This will lasts the animation for 15 seconds and repeats infinitely */
-    animation: scroll 15s infinite;  
-
+     animation: scroll linear 15s infinite;   
 }
-
 .card {
     display: inline-block;
     width: 800px;
-    height: 600px;
+    height: 650px;
     margin-right: 20px;
     vertical-align: super;
     background-color: #fff;
@@ -269,6 +271,7 @@ p {
 .container:hover .product-cards {
     animation-play-state: paused;
 }
+
 @keyframes scroll {
     0% {
         transform: translateX(0);
@@ -276,4 +279,4 @@ p {
     100% {
         transform: translateX(-100%);
     }
-}
+} 
