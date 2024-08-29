@@ -17,7 +17,7 @@ function fetchProductById(id) {
 async function generateProductCards() {
     const productIds = [5, 8, 13, 16, 20]; // random IDs were taken. we can replace these with specific product IDs
     const container = document.querySelector('.product-cards');
-
+    //console.log(container);
     for (let id of productIds) {
         const product = await fetchProductById(id);
 
@@ -31,7 +31,6 @@ async function generateProductCards() {
                 <button class="details-btn">Details</button>
                 <button class="cart-btn">Add to Cart</button>
             `;
-
             container.appendChild(card);
         } else {
             console.error(`Product with ID ${id} not found.`);
