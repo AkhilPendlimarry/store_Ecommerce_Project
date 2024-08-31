@@ -57,7 +57,7 @@ function enableScrolling(container){
 async function displayProductDetails(productId) {
     const product = await fetchProductById(productId); 
     
-    if (product) {                                   // if the product is retrieved successfully into the Product variable, perform this operation
+    if (product) {             // if the product is retrieved successfully into the Product variable, perform this operation
         const productData = `                               
             <div class="productDetails">
                 <div class="image-container">
@@ -70,12 +70,11 @@ async function displayProductDetails(productId) {
                     <p>${product.rating.rate}<i class="fa-solid fa-star"></i></p>
                     <p>${product.description}</p>
                     <button id="add-to-cart">Add to Cart</button>
-                    <button id="go-to-cart">Go to Cart</button>
+                    <button id="go-to-cart"></a>Go to Cart</button>
                 </div>
             </div>
         `;
-        
-        const productContainer = document.querySelector('.productContainer');
+     const productContainer = document.querySelector('.productContainer');
         productContainer.innerHTML = productData;
     } else {
         const productContainer = document.querySelector('.productContainer');
@@ -83,4 +82,4 @@ async function displayProductDetails(productId) {
     }
 }
 
-export { generateProductCards, displayProductDetails };
+export { fetchProductById, generateProductCards, displayProductDetails };

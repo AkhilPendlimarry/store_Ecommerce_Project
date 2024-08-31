@@ -172,7 +172,5 @@ document.addEventListener("DOMContentLoaded", function(){
         cartSection.style.display = 'block';
         renderCartItems();
     });
-
-    
-
 });
+
