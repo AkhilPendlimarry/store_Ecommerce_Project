@@ -95,7 +95,6 @@ button:hover{
 }
 .latestProducts hr{
     width: 95%;
-    
 }
 
 .categories{
@@ -121,6 +120,24 @@ button:hover{
     cursor: pointer;
 }
 
+#cartView{
+    text-align: center;
+    padding: 20px;
+}
+.checkOutSection{
+    margin: 10px auto;
+    padding: 20px;
+}
+
+/* Cart section styling */
+#cart-section{
+    text-align: center;
+}
+#shoppingBtn{
+    padding: 10px;
+    margin: 5px;
+    font-size: 28px;
+}
 /* Product container styling */
 .productContainer{
     display: flex;
@@ -281,3 +298,15 @@ p {
         transform: translateX(-100%);
     }
 } 
+
+.checkOutSection{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    padding: 10px;
+}
+.checkoutImage{
+    width: 300px;
+    height: 200px;
+}
