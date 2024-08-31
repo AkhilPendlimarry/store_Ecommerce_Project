@@ -1,5 +1,5 @@
-import { generateProductCards, displayProductDetails } from "./product.js";
-
+import { fetchProductById, generateProductCards, displayProductDetails } from "./product.js";
+import './cart.js';
 
 document.addEventListener("DOMContentLoaded", function(){
     const productContainer = document.querySelector('.productContainer');
@@ -8,13 +8,14 @@ document.addEventListener("DOMContentLoaded", function(){
     const heroSection = document.getElementById('hero-section');
     const productsSection = document.getElementById('products-section');
     const latestProductSection = document.getElementById('latest-section');
+    const latestSection = document.getElementsByClassName('latestProducts');
     const HR = document.getElementById('hr');
     const text = document.querySelector('h3');
-   // const cartButton = document.getElementById('cart-button');
-    const cartCount = document.getElementById('cart-button');
+   
+    const cartButton = document.getElementById('cart-button');
     let cart = JSON.parse(localStorage.getItem('cart')) || []; // gets cart data from local storage.
-    //console.log(cartButton);
-
+     console.log(cart);
+    
     let allProducts = []; // fetched products will be stored into an empty array.
 
     // fetching products from the API
@@ -53,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function(){
             // using forEach to append each card item to the container.
             productCards.forEach(productCard => {
                 productContainer.appendChild(productCard);
-                //console.log(productCard);
+                console.log(productCard);
             });
         }
 
@@ -92,6 +93,8 @@ document.addEventListener("DOMContentLoaded", function(){
 
                displayProductDetails(productId);
                generateProductCards();
+               fetchProductById();
+               renderCartItems();
                }
             if (e.target.id === 'add-to-cart'){
                 const productId = parseInt(e.target.getAttribute('data-product-id'));
@@ -102,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function(){
     // function to add a product to the cart
     function addToCart(productId){
         const product = allProducts.find(item => item.id === productId);
-        const existingProduct = cart.find(item => item.id === productId);
+        let existingProduct = cart.find(item => item.id === productId);
 
         if(existingProduct){
             existingProduct.quantity += 1;
@@ -116,10 +119,11 @@ document.addEventListener("DOMContentLoaded", function(){
     // function to update cart display 
     function updateCartDisplay() {
          const totalItems = cart.reduce((acc, product) => acc + product.quantity, 0);
-         //cartCount.textContent = totalItems;
-          cartCount.innerHTML = `cart(${totalItems})`; //`<i class="cart-button"></i>Cart(${totalItems})`;
+         
+          document.getElementById('cart-count').textContent = `(${totalItems})`; //`<i class="cart-button"></i>Cart(${totalItems})`;
 
     }
+   
       document.querySelectorAll('.add-to-cart').forEach(button =>
       {
         button.addEventListener('click', function(){
@@ -129,5 +133,46 @@ document.addEventListener("DOMContentLoaded", function(){
       }
       );
 
+      document.addEventListener('click', function(e) {
+        if(e.target.id === 'go-to-cart'){
+           cartButton.click();
+        }
+    })  
+
      updateCartDisplay();
+    
+
+    document.getElementById('cart-button').addEventListener('click', function(e){
+        if(e.target.id === 'shoppingBtn') {
+            renderCartItems();
+        }
+
+
+    });
+
+    // Handle Product Card Actions
+    productContainer.addEventListener('click', function(e) {
+        const productId = parseInt(e.target.getAttribute('data-product-id'));
+
+        if (e.target.classList.contains('detailsBtn')) {
+            // Handle product details display
+            console.log('Show details for product:', productId);
+        }
+
+        if (e.target.classList.contains('add-to-cart')) {
+            addToCart(productId);
+        }
+    });
+
+    // Handle Cart Button Click
+    cartButton.addEventListener('click', function() {
+        heroSection.style.display = 'none';
+        productsSection.style.display = 'none';
+        latestSection.style.display = 'none';
+        cartSection.style.display = 'block';
+        renderCartItems();
+    });
+
+    
+
 });
