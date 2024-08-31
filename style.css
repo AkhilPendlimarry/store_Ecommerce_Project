@@ -87,6 +87,10 @@ button:hover{
     
 }
 
+.hidden{
+    display: none;
+}
+
 /* section styling */
 .latestProducts{
     font-size: 28px;
@@ -95,6 +99,7 @@ button:hover{
 }
 .latestProducts hr{
     width: 95%;
+    
 }
 
 .categories{
@@ -120,24 +125,6 @@ button:hover{
     cursor: pointer;
 }
 
-#cartView{
-    text-align: center;
-    padding: 20px;
-}
-.checkOutSection{
-    margin: 10px auto;
-    padding: 20px;
-}
-
-/* Cart section styling */
-#cart-section{
-    text-align: center;
-}
-#shoppingBtn{
-    padding: 10px;
-    margin: 5px;
-    font-size: 28px;
-}
 /* Product container styling */
 .productContainer{
     display: flex;
@@ -255,16 +242,17 @@ p {
 }
 
 .product-cards {
-    display: block;
+    display: flex;
     /* This will lasts the animation for 15 seconds and repeats infinitely */
      animation: scroll linear 15s infinite;   
+     white-space: nowrap;
 }
 .card {
     display: inline-block;
-    width: 800px;
+    width: 600px;
     height: 650px;
     margin-right: 20px;
-    vertical-align: super;
+    vertical-align: top;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -272,18 +260,27 @@ p {
     padding: 20px;
     border: 2px solid grey;
 }
+.cardContent{
+    display: flex;
+    justify-content: flex-start;
+    align-items: left;
+    
+}
 .card img{
     height: 400px;
+    width: auto;
 }
 .card h2{
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .card button{
     padding: 20px;
     margin: 10px;
     border-radius: 5px;
     font-size: 26px;
+    white-space: nowrap;
 }
 
 .container:hover .product-cards {
@@ -298,15 +295,3 @@ p {
         transform: translateX(-100%);
     }
 } 
-
-.checkOutSection{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 5px;
-    padding: 10px;
-}
-.checkoutImage{
-    width: 300px;
-    height: 200px;
-}

@@ -1,20 +1,20 @@
-function fetchProductById(id) {
-    return fetch(`https://fakestoreapi.com/products/${id}`)
-        .then(response => {
-            if (response.ok) {
-                return response.json(); // parse & returns JSON data
-            } else {
-                return {}; // returns empty object/default value
-            }
-        })
-        .catch(error => {
-            console.error('Failed to fetch product details:', error);
-            return {};
-        });
+export async function fetchProductById(id) {
+    try {
+        const response = await fetch(`https://fakestoreapi.com/products/${id}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const product = await response.json();
+        return product;
+    } catch (error) {
+        console.error('Failed to fetch product details:', error);
+        return null;  // Return null if the fetch fails
+    }
 }
 
+
 // function to generate product cards for scrolling.
-async function generateProductCards() {
+export async function generateProductCards() {
     const productIds = [5, 8, 13, 16, 20]; // random IDs were taken. we can replace these with specific product IDs
     const container = document.querySelector('.product-cards');
     //console.log(container);
@@ -26,18 +26,20 @@ async function generateProductCards() {
             card.classList.add('card', 'product-card');
 
             card.innerHTML = `
-                <img src="${product.image}" alt="${product.title}">
+            <img src="${product.image}" alt="${product.title}">
+             <div class="cardContent">
                 <h2>${product.title}</h2>
                 <button class="details-btn">Details</button>
                 <button class="cart-btn">Add to Cart</button>
-            `;
-            container.appendChild(card);
+             </div>
+                `;
+            container.append(card);
         } else {
             console.error(`Product with ID ${id} not found.`);
         }
     }
     enableScrolling(container);
-}
+
 function enableScrolling(container){
     const productCards = document.querySelectorAll('.product-card');
 
@@ -52,12 +54,12 @@ function enableScrolling(container){
         }
     });
 }
-
+}
 // funtion to display product Detailed View.
-async function displayProductDetails(productId) {
+export async function displayProductDetails(productId) {
     const product = await fetchProductById(productId); 
     
-    if (product) {             // if the product is retrieved successfully into the Product variable, perform this operation
+    if (product) {                                   // if the product is retrieved successfully into the Product variable, perform this operation
         const productData = `                               
             <div class="productDetails">
                 <div class="image-container">
@@ -70,11 +72,12 @@ async function displayProductDetails(productId) {
                     <p>${product.rating.rate}<i class="fa-solid fa-star"></i></p>
                     <p>${product.description}</p>
                     <button id="add-to-cart">Add to Cart</button>
-                    <button id="go-to-cart"></a>Go to Cart</button>
+                    <button id="go-to-cart">Go to Cart</button>
                 </div>
             </div>
         `;
-     const productContainer = document.querySelector('.productContainer');
+        
+        const productContainer = document.querySelector('.productContainer');
         productContainer.innerHTML = productData;
     } else {
         const productContainer = document.querySelector('.productContainer');
@@ -82,4 +85,4 @@ async function displayProductDetails(productId) {
     }
 }
 
-export { fetchProductById, generateProductCards, displayProductDetails };
+// export {fetchProductById, generateProductCards, displayProductDetails };

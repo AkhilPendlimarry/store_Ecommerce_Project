@@ -1,4 +1,4 @@
-<!DOCTYPE html>    
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -22,9 +22,7 @@
             <div class="btnClass">
                 <button><i class="fa-solid fa-right-to-bracket"></i> Login</button>
                 <button><i class="fa-solid fa-user-plus"></i> Register</button>
-                <button id = "cart-button">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                     Cart <span id="cart-count"></span> </span></button>
+                <button id = "cart-button"><i class="fa-solid fa-cart-shopping"></i> Cart <span id="cart-count">(0)</span></button>
             </div>
         </nav>
     </header>
@@ -39,8 +37,6 @@
 
     <!-- main Products section -->
     <main id="products-section">
-
-        <!-- Latest Product section -->
         <section class="latestProducts">
             <h2 id="latest-section">Latest Products</h2>
             <hr id="hr">
@@ -58,16 +54,45 @@
                 <!-- Dynamic product card rendering -->
             </div>
             <!-- scrolling card generation -->
-            <h3 style="text-align: left; margin: 40px; display: none;">You may also like</h3>
+            <!-- <h3 style="text-align: left; margin: 40px; display: none;">You may also like</h3>
             <div class="container">
                 <div class="product-cards">
                     
                 </div>
-            </div>
+            </div> -->
         </section>
     </main>
 
-    
+    <section id="product-details-section" class="hidden"></section>
+
+  <!-- Cart section- hidden initially -->
+    <section id="cart-section" class="hidden">
+        <h2>Cart</h2>
+        <div id="cartView">
+            <p id="empty-msg">Your Cart is Empty</p>
+        </div>
+        <table id="cart-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+
+            <tbody id="cart-items">
+            
+            </tbody>
+        </table>
+        <div id="order-summary" class="hidden">
+            <h3>Order Summary</h3>
+            <p>Products: <span id="cart-total-items">0</span></p>
+            <p id="shipping-charges">Shipping: $30</p>
+            <p>Total amount: $<span id="totalWithShipping"></span></p>
+            <button id="back-to-products">Back to Products</button>
+        </div>
+    </section>
 
     <footer>
         <br><br><br>
@@ -75,7 +100,7 @@
         <p style="text-align: center;"><i class="fa-regular fa-copyright"></i> Built by Akhil Pendlimarry 2024</p>
     </footer>
 
-
     <script type="module" src="./JSFolder/app.js"></script>
+   
 </body>
 </html>
