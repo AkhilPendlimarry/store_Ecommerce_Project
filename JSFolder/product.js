@@ -4,8 +4,8 @@ export async function fetchProductById(id) {
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        const product = await response.json();
-        return product;
+        return await response.json();
+        
     } catch (error) {
         console.error('Failed to fetch product details:', error);
         return null;  // Return null if the fetch fails
@@ -16,7 +16,7 @@ export async function fetchProductById(id) {
 // function to generate product cards for scrolling.
 export async function generateProductCards() {
     const productIds = [5, 8, 13, 16, 20]; // random IDs were taken. we can replace these with specific product IDs
-    const container = document.querySelector('.product-cards');
+    const container = document.querySelector('product-cards');
     //console.log(container);
     for (let id of productIds) {
         const product = await fetchProductById(id);
@@ -41,7 +41,7 @@ export async function generateProductCards() {
     enableScrolling(container);
 
 function enableScrolling(container){
-    const productCards = document.querySelectorAll('.product-card');
+    const productCards = document.querySelector(' product-cards');
 
     productCards.forEach(card =>{
         const clone=card.cloneNode(true);

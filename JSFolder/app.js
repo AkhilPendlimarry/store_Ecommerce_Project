@@ -1,4 +1,4 @@
-import { fetchProductById, generateProductCards, displayProductDetails } from "./product.js";
+import { fetchProductById, generateProductCards } from "./product.js";
 
 
 document.addEventListener("DOMContentLoaded", function(){
@@ -105,13 +105,17 @@ document.addEventListener("DOMContentLoaded", function(){
         fetchProductById(productId).then(product => {
             productDetailsSection.innerHTML = `
                 <div class="productDetails">
-                    <img src="${product.image}" alt="${product.title}">
-                    <h1>${product.title}</h1>
-                    <p>${product.description}</p>
-                    <p>$${product.price}</p>
-                    <button class="add-to-cart" data-product-id="${product.id}">Add to Cart</button>
-                    <button id="go-to-cart">Go to Cart</button>
-                </div>
+                    <div class="product-details-container">
+                     <img src="${product.image}" alt="${product.title}" class="product-image">
+                     <div class="product-content">
+                        <h1>${product.title}</h1>
+                        <p>${product.description}</p>
+                        <p class="product-price">$${product.price}</p>
+                    </div>
+                    <div class="button-group">
+                        <button class="add-to-cart" data-product-id="${product.id}">Add to Cart</button>
+                        <button class="goToCart" id="go-to-cart">Go to Cart</button>
+                    </div>
             `;
             productDetailsSection.classList.remove('hidden');
             productsSection.classList.add('hidden');
@@ -142,38 +146,38 @@ document.addEventListener("DOMContentLoaded", function(){
 
     // render cart items
     function renderCartItems(){
-        const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
         const cartItemsContainer = document.getElementById('cart-items');
         const cartTotalItems = document.getElementById('cart-total-items');
-        const cartTotalAmount = document.getElementById('totalWithShipping');
+        const shippingChargesEl = document.getElementById('shipping-charges');
+        const totalWithShippingEl = document.getElementById('totalWithShipping');
         const orderSummary = document.getElementById('order-summary');
-        const emptyCartMsg = document.getElementById('empty-cart-msg');
-        cartItemsContainer.innerHTML = ''; 
-        const tableBody = document.getElementById('cart-items');
-        const table = document.getElementById('cart-table');
-        tableBody.innerHTML = "";
+        const emptyCartMsg = document.getElementById('empty-msg');
+        const cartSection = document.getElementById('cart-section');
+         
+        cartItemsContainer.innerHTML = ''; //  clears existing items if any
+       
         let total = 0;
         const shippingCharges = 30;
-        cartItemsContainer.innerHTML = '';
+
         if (cart.length === 0) {
-            emptyCartMsg.classList.remove('hidden');
-            cartItemsContainer.classList.add('hidden');
-            orderSummary.classList.add('hidden');
+            emptyCartMsg.classList.remove('hidden');  // shows empty cart message
+            cartSection.classList.add('hidden');  // hides cart section 
+            //orderSummary.classList.add('hidden');
         } else {
-            emptyCartMsg.classList.add('hidden');
-            cartItemsContainer.classList.remove('hidden');
-            orderSummary.classList.remove('hidden');
+            emptyCartMsg.classList.add('hidden'); // hides empty cart message
+            cartSection.classList.remove('hidden'); // shows cart section
            
             cart.forEach(item => {
-                if (item.title && item.image && item.price) {
-                    const itemTotal = item.price * item.quantity;
-                    total += itemTotal;
+                const itemTotal = item.price * item.quantity;  // calculates the total for the item.
+                total += itemTotal;
 
                 const row = document.createElement('tr');
     
                 row.innerHTML = `
-                    <td><img src="${item.image}" alt="${item.title}" class='checkoutImage'></td>
-                    <td>${item.title}</td>
+                    <td>
+                        <img src="${item.image}" alt="${item.title}" class='checkoutImage'>
+                        ${item.title}
+                    </td>
                     <td>
                         <i class="fa-solid fa-minus" data-product-id="${item.id}"></i>
                         ${item.quantity}
@@ -182,19 +186,17 @@ document.addEventListener("DOMContentLoaded", function(){
                     <td>$${item.price.toFixed(2)}</td>
                     <td class='itemTotal'>$${itemTotal.toFixed(2)}</td>
                 `;
-                tableBody.appendChild(row);
-                total += product.price * product.quantity + shippingCharges;
-                }
-            table.appendChild(tableBody);
             cartItemsContainer.appendChild(row);
-            })
+            });
+
+            const totalWithShipping = total + shippingCharges;  // calc. total with shipping charges.
         
 
             // updating the total amount.
-            document.getElementById('cart-total-items').textContent = cart.length;
-            document.getElementById('cart-total-amount').textContent = total.toFixed(2);
-            document.getElementById('shipping-charges').textContent = `$${shippingCharges.toFixed(2)}`;
-            document.getElementById('totalWithShipping').textContent = `$${totalWithShipping.toFixed(2)}`;
+            cartTotalItems.textContent = cart.length; // updates item count
+            shippingChargesEl.textContent = `Shipping: $${shippingCharges.toFixed(2)}`; // updates shipping value
+            totalWithShippingEl.textContent = `$${totalWithShipping.toFixed(2)}`; // updates total + shipping value
+            orderSummary.classList.remove('hidden');  // shows order summary
         }
     }
 
@@ -213,10 +215,13 @@ document.addEventListener("DOMContentLoaded", function(){
         productDetailsSection.classList.add('hidden');
         cartSection.classList.add('hidden');
         productsSection.classList.remove('hidden');
-        heroSection.classList.add('hidden');
+        if(!heroSection.classList.contains('hidden')){
+            heroSection.classList.remove('hidden');
+        };
     });
 
 updateCartDisplay();
 });
 generateProductCards();
 fetchProductById();
+
