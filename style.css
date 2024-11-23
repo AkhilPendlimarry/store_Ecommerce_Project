@@ -57,7 +57,7 @@ button:hover{
 /* Hero Section */
 .hero {
     position: relative;
-    background-image: url('./Assets/main.png.jpg'); /* Replace with your image URL */
+    background-image: url('./Assets/main.png.jpg'); 
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -179,23 +179,14 @@ button:hover{
     background-color: rgb(50, 50, 51);
 }
 
-/* Detailed view section styling */
-.productDetails {
-    display: flex;
-    /* justify-content: center;
-    align-items: center; */
-    max-width: 100%;
-    margin: 10px auto;
-    /* justify-content: space-evenly; */
-    padding: 25px;
-    gap: 30px;
-}
-
 .product-details-container{
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
+    align-items:center;
+    text-overflow: ellipsis;
+    justify-content: space-evenly;
     padding: 20px;
+    gap: 20px;
+    margin: 20px auto;
 }
 .product-image{
     width: 300px;
@@ -204,23 +195,26 @@ button:hover{
 }
  
 .product-content{
-    flex-grow: 1;
+    
+    border: 1px solid white;
+    /* width: 500px; */
     padding: 20px;
     display: flex;
+    justify-content: center;
     flex-direction: column;
 }
-.productDetails h2{
-    text-transform: uppercase;
+.productDetails{
     margin-bottom: 15px;
-    font-size: 32px;
+    padding: 10px;
 }
 
-h1{
+.product-content h1{
     font-size: 60px;
     font-weight: 100;
 }
-p {
-    font-size: 30px;
+.product-content p {
+    
+    font-size: 28px;
 }
 .button-group{
     margin:10px 20px;
@@ -232,7 +226,7 @@ p {
 
 .button-group button {
     padding: 10px 20px;
-    font-size: 1rem;
+    font-size: 2rem;
     border: none;
     cursor: pointer;
     border-radius: 5px;
@@ -241,15 +235,12 @@ p {
     background-color: #1a1b1c;
 }
 
-.go-to-cart {
-    background-color: #343835;
+
+/* Car Page */
+.cartImage{
+    width: 400px;
+    
 }
-
-.go-to-cart:hover {
-    background-color: #333433;
-}
-
-
 /* carousel scrolling */
 
 .container {
@@ -313,3 +304,18 @@ p {
         transform: translateX(-100%);
     }
 } 
+
+
+@media (max-width: 768px) {
+    .product-card {
+        width: calc(50% - 20px); /* 2 cards per row */
+    }
+}
+@media (max-width: 480px) {
+    .product-card {
+        width: 100%; /* 1 card per row */
+    }
+    .hero {
+        height: 400px; /* Adjust hero height */
+    }
+}

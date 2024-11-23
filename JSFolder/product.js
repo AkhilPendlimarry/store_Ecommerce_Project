@@ -16,7 +16,7 @@ export async function fetchProductById(id) {
 // function to generate product cards for scrolling.
 export async function generateProductCards() {
     const productIds = [5, 8, 13, 16, 20]; // random IDs were taken. we can replace these with specific product IDs
-    const container = document.querySelector('product-cards');
+    const container = document.querySelector('.product-cards');
     //console.log(container);
     for (let id of productIds) {
         const product = await fetchProductById(id);

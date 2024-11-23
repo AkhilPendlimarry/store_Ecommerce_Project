@@ -8,15 +8,10 @@ document.addEventListener("DOMContentLoaded", function(){
     const heroSection = document.getElementById('hero-section');
     const productsSection = document.getElementById('products-section');
     const latestProductSection = document.getElementById('latest-section');
-    const HR = document.getElementById('hr');
-    const text = document.querySelector('h3');
     const cartButton = document.getElementById('cart-button');
     const cartSection = document.getElementById('cart-section');
     const productDetailsSection = document.getElementById('product-details-section');
-    const cartItemsContainer = document.getElementById('cart-items');
     const cartCount = document.getElementById('cart-count');
-    const orderSummary = document.getElementById('order-summary');
-    const emptyCartMsg = document.getElementById('empty-msg');
     const backToProductsBtn = document.getElementById('back-to-products');
     
 
@@ -104,18 +99,20 @@ document.addEventListener("DOMContentLoaded", function(){
     function displayProductDetails(productId) {
         fetchProductById(productId).then(product => {
             productDetailsSection.innerHTML = `
-                <div class="productDetails">
-                    <div class="product-details-container">
+                
+                  <div class="product-details-container">
                      <img src="${product.image}" alt="${product.title}" class="product-image">
                      <div class="product-content">
                         <h1>${product.title}</h1>
                         <p>${product.description}</p>
-                        <p class="product-price">$${product.price}</p>
-                    </div>
-                    <div class="button-group">
+                        <p class="product-price">Price: $${product.price}</p>
+                       <div class="button-group">
                         <button class="add-to-cart" data-product-id="${product.id}">Add to Cart</button>
-                        <button class="goToCart" id="go-to-cart">Go to Cart</button>
-                    </div>
+                        <button  id="go-to-cart">Go to Cart</button>
+                       </div>
+                     </div>
+                  </div>
+                
             `;
             productDetailsSection.classList.remove('hidden');
             productsSection.classList.add('hidden');
@@ -162,10 +159,11 @@ document.addEventListener("DOMContentLoaded", function(){
         if (cart.length === 0) {
             emptyCartMsg.classList.remove('hidden');  // shows empty cart message
             cartSection.classList.add('hidden');  // hides cart section 
-            //orderSummary.classList.add('hidden');
+            orderSummary.classList.add('hidden');
         } else {
             emptyCartMsg.classList.add('hidden'); // hides empty cart message
             cartSection.classList.remove('hidden'); // shows cart section
+            orderSummary.classList.remove('hidden');
            
             cart.forEach(item => {
                 const itemTotal = item.price * item.quantity;  // calculates the total for the item.
@@ -174,20 +172,24 @@ document.addEventListener("DOMContentLoaded", function(){
                 const row = document.createElement('tr');
     
                 row.innerHTML = `
-                    <td>
-                        <img src="${item.image}" alt="${item.title}" class='checkoutImage'>
+                    <td class="cartImage">
+                        <img src="${item.image}" alt="${item.title}" class='checkoutImage' style="width: 80px; height: 50px;">
                         ${item.title}
                     </td>
                     <td>
-                        <i class="fa-solid fa-minus" data-product-id="${item.id}"></i>
+                        <button class="decrease" data-product-id="${item.id}">-</button>
                         ${item.quantity}
-                        <i class="fa-solid fa-plus" data-product-id="${item.id}"></i>
+                        <button class="increase" data-product-id="${item.id}">+</button>
                     </td>
                     <td>$${item.price.toFixed(2)}</td>
                     <td class='itemTotal'>$${itemTotal.toFixed(2)}</td>
                 `;
-            cartItemsContainer.appendChild(row);
+               
+                cartItemsContainer.appendChild(row);
+
             });
+            console.log(cartItemsContainer.innerHTML)
+            
 
             const totalWithShipping = total + shippingCharges;  // calc. total with shipping charges.
         
@@ -198,8 +200,49 @@ document.addEventListener("DOMContentLoaded", function(){
             totalWithShippingEl.textContent = `$${totalWithShipping.toFixed(2)}`; // updates total + shipping value
             orderSummary.classList.remove('hidden');  // shows order summary
         }
+        handleQuantityChanges();
     }
 
+    function handleQuantityChanges(){
+        const decreaseButton = document.querySelectorAll('.decrease');
+        const increaseButton = document.querySelectorAll('.increase');
+
+        decreaseButton.forEach(button=>{
+            button.addEventListener('click', function(){
+                const productId = parseInt(this.getAttribute('data-product-id'));
+                const product =  cart.find(item=> item.id === productId);
+
+                if(product){
+                    product.quantity -= 1;
+                    if(product.quantity === 0){
+                        cart = cart.filter(item=> item.id !== productId);
+                    }
+                    updateCartStorage();
+                    renderCartItems();
+                }
+            });
+
+        });
+
+        increaseButton.forEach(button=>{
+            button.addEventListener('click', function(){
+                const productId = parseInt(this.getAttribute('data-product-id'));
+                const product =  cart.find(item=> item.id === productId);
+
+                if(product){
+                    product.quantity += 1;
+                    updateCartStorage();
+                    renderCartItems();
+                }
+            });
+
+        });
+    }
+
+    function updateCartStorage(){
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartDisplay();
+    }
         
     
     // shows cart button on click      
@@ -222,6 +265,5 @@ document.addEventListener("DOMContentLoaded", function(){
 
 updateCartDisplay();
 });
-generateProductCards();
-fetchProductById();
+
 
