@@ -1,4 +1,4 @@
-export async function fetchProductById(id) {
+ async function fetchProductById(id) {
     try {
         const response = await fetch(`https://fakestoreapi.com/products/${id}`);
         if (!response.ok) {
@@ -14,7 +14,7 @@ export async function fetchProductById(id) {
 
 
 // function to generate product cards for scrolling.
-export async function generateProductCards() {
+ async function generateProductCards() {
     const productIds = [5, 8, 13, 16, 20]; // random IDs were taken. we can replace these with specific product IDs
     const container = document.querySelector('.product-cards');
     //console.log(container);
@@ -23,7 +23,7 @@ export async function generateProductCards() {
 
         if (Object.keys(product).length) {
             const card = document.createElement('div');
-            card.classList.add('card', 'product-card');
+            card.classList.add('card');
 
             card.innerHTML = `
             <img src="${product.image}" alt="${product.title}">
@@ -33,30 +33,30 @@ export async function generateProductCards() {
                 <button class="cart-btn">Add to Cart</button>
              </div>
                 `;
-            container.append(card);
+            container.appendChild(card);
         } else {
             console.error(`Product with ID ${id} not found.`);
         }
     }
     enableScrolling(container);
 
-function enableScrolling(container){
-    const productCards = document.querySelector(' product-cards');
+    function enableScrolling(container){
+        const productCards = document.querySelectorAll('.card');
 
-    productCards.forEach(card =>{
-        const clone=card.cloneNode(true);
-        container.appendChild(clone);
-    });
-    container.addEventListener('scroll', function(){
-        
-        if(container.scrollLeft >= (container.scrollWidth / 2)){
-            container.scrollLeft = 0;
-        }
-    });
-}
+        productCards.forEach(card =>{
+            const clone=card.cloneNode(true);
+            container.appendChild(clone);
+        });
+        container.addEventListener('scroll', function(){
+            
+            if(container.scrollLeft >= (container.scrollWidth / 2)){
+                container.scrollLeft = 0;
+            }
+        });
+    }
 }
 // funtion to display product Detailed View.
-export async function displayProductDetails(productId) {
+ async function displayProductDetails(productId) {
     const product = await fetchProductById(productId); 
     
     if (product) {                                   // if the product is retrieved successfully into the Product variable, perform this operation
@@ -85,4 +85,4 @@ export async function displayProductDetails(productId) {
     }
 }
 
-// export {fetchProductById, generateProductCards, displayProductDetails };
+export {fetchProductById, generateProductCards, displayProductDetails };

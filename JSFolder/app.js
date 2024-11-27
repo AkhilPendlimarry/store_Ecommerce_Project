@@ -1,5 +1,4 @@
-import { fetchProductById, generateProductCards } from "./product.js";
-
+ import { fetchProductById, generateProductCards } from "./product.js";
 
 document.addEventListener("DOMContentLoaded", function(){
     const productContainer = document.querySelector('.productContainer');
@@ -91,8 +90,11 @@ document.addEventListener("DOMContentLoaded", function(){
                 const productId = e.target.getAttribute('data-product-id');
                 addToCart(productId);
             }
+            
         });
-           
+        
+
+         
       
 
     // display product details
@@ -118,152 +120,154 @@ document.addEventListener("DOMContentLoaded", function(){
             productsSection.classList.add('hidden');
             heroSection.classList.add('hidden');
             cartSection.classList.add('hidden');
-        });
-    }
-        
-    // function to add a product to the cart
-    function addToCart(productId){
-        const product = allProducts.find(item => item.id === parseInt(productId));
-        const existingProduct = cart.find(item => item.id === parseInt(productId));
-
-        if(existingProduct){
-            existingProduct.quantity += 1;
-        } else {
-            cart.push({...product, quantity:1});
-        }
-        localStorage.setItem('cart', JSON.stringify(cart));  // sets the cart data into local storage.
-        updateCartDisplay();
-    }
-
-    // function to update cart display 
-    function updateCartDisplay() {
-         cartCount.textContent = `(${cart.reduce((acc, product) => acc + product.quantity, 0)})`;
-         renderCartItems();
-        }
-
-    // render cart items
-    function renderCartItems(){
-        const cartItemsContainer = document.getElementById('cart-items');
-        const cartTotalItems = document.getElementById('cart-total-items');
-        const shippingChargesEl = document.getElementById('shipping-charges');
-        const totalWithShippingEl = document.getElementById('totalWithShipping');
-        const orderSummary = document.getElementById('order-summary');
-        const emptyCartMsg = document.getElementById('empty-msg');
-        const cartSection = document.getElementById('cart-section');
-         
-        cartItemsContainer.innerHTML = ''; //  clears existing items if any
-       
-        let total = 0;
-        const shippingCharges = 30;
-
-        if (cart.length === 0) {
-            emptyCartMsg.classList.remove('hidden');  // shows empty cart message
-            cartSection.classList.add('hidden');  // hides cart section 
-            orderSummary.classList.add('hidden');
-        } else {
-            emptyCartMsg.classList.add('hidden'); // hides empty cart message
-            cartSection.classList.remove('hidden'); // shows cart section
-            orderSummary.classList.remove('hidden');
            
-            cart.forEach(item => {
-                const itemTotal = item.price * item.quantity;  // calculates the total for the item.
-                total += itemTotal;
-
-                const row = document.createElement('tr');
-    
-                row.innerHTML = `
-                    <td class="cartImage">
-                        <img src="${item.image}" alt="${item.title}" class='checkoutImage' style="width: 80px; height: 50px;">
-                        ${item.title}
-                    </td>
-                    <td>
-                        <button class="decrease" data-product-id="${item.id}">-</button>
-                        ${item.quantity}
-                        <button class="increase" data-product-id="${item.id}">+</button>
-                    </td>
-                    <td>$${item.price.toFixed(2)}</td>
-                    <td class='itemTotal'>$${itemTotal.toFixed(2)}</td>
-                `;
-               
-                cartItemsContainer.appendChild(row);
-
-            });
-            console.log(cartItemsContainer.innerHTML)
-            
-
-            const totalWithShipping = total + shippingCharges;  // calc. total with shipping charges.
+        });
         
+    }    
+   
 
-            // updating the total amount.
-            cartTotalItems.textContent = cart.length; // updates item count
-            shippingChargesEl.textContent = `Shipping: $${shippingCharges.toFixed(2)}`; // updates shipping value
-            totalWithShippingEl.textContent = `$${totalWithShipping.toFixed(2)}`; // updates total + shipping value
-            orderSummary.classList.remove('hidden');  // shows order summary
-        }
-        handleQuantityChanges();
+ // function to add a product to the cart
+ function addToCart(productId){
+    const product = allProducts.find(item => item.id === parseInt(productId));
+    const existingProduct = cart.find(item => item.id === parseInt(productId));
+
+    if(existingProduct){
+        existingProduct.quantity += 1;
+    } else {
+        cart.push({...product, quantity:1});
+    }
+    localStorage.setItem('cart', JSON.stringify(cart));  // sets the cart data into local storage.
+    updateCartDisplay();
+}
+
+// function to update cart display 
+ function updateCartDisplay() {
+     cartCount.textContent = `(${cart.reduce((acc, product) => acc + product.quantity, 0)})`;
+     renderCartItems();
     }
 
-    function handleQuantityChanges(){
-        const decreaseButton = document.querySelectorAll('.decrease');
-        const increaseButton = document.querySelectorAll('.increase');
+// render cart items
+ function renderCartItems(){
+    const cartItemsContainer = document.getElementById('cart-items');
+    const cartTotalItems = document.getElementById('cart-total-items');
+    const shippingChargesEl = document.getElementById('shipping-charges');
+    const totalWithShippingEl = document.getElementById('totalWithShipping');
+    const orderSummary = document.getElementById('order-summary');
+    const emptyCartMsg = document.getElementById('empty-msg');
+    const cartSection = document.getElementById('cart-section');
+     
+    cartItemsContainer.innerHTML = ''; //  clears existing items if any
+   
+    let total = 0;
+    const shippingCharges = 30;
 
-        decreaseButton.forEach(button=>{
-            button.addEventListener('click', function(){
-                const productId = parseInt(this.getAttribute('data-product-id'));
-                const product =  cart.find(item=> item.id === productId);
+    if (cart.length === 0) {
+        emptyCartMsg.classList.remove('hidden');  // shows empty cart message
+        cartSection.classList.add('hidden');  // hides cart section 
+        orderSummary.classList.add('hidden');
+    } else {
+        emptyCartMsg.classList.add('hidden'); // hides empty cart message
+        cartSection.classList.remove('hidden'); // shows cart section
+        orderSummary.classList.remove('hidden');
+        latestProductSection.classList.add('hidden');
+       
+        cart.forEach(item => {
+            const itemTotal = item.price * item.quantity;  // calculates the total for the item.
+            total += itemTotal;
 
-                if(product){
-                    product.quantity -= 1;
-                    if(product.quantity === 0){
-                        cart = cart.filter(item=> item.id !== productId);
-                    }
-                    updateCartStorage();
-                    renderCartItems();
-                }
-            });
+            const row = document.createElement('tr');
+
+            row.innerHTML = `
+                <td class="cartImage">
+                    <img src="${item.image}" alt="${item.title}" class='checkoutImage' style="width: 80px; height: 50px;">
+                    ${item.title}
+                </td>
+                <td>
+                    <button class="decrease" data-product-id="${item.id}">-</button>
+                    ${item.quantity}
+                    <button class="increase" data-product-id="${item.id}">+</button>
+                </td>
+                <td>$${item.price.toFixed(2)}</td>
+                <td class='itemTotal'>$${itemTotal.toFixed(2)}</td>
+            `;
+           
+            cartItemsContainer.appendChild(row);
 
         });
-
-        increaseButton.forEach(button=>{
-            button.addEventListener('click', function(){
-                const productId = parseInt(this.getAttribute('data-product-id'));
-                const product =  cart.find(item=> item.id === productId);
-
-                if(product){
-                    product.quantity += 1;
-                    updateCartStorage();
-                    renderCartItems();
-                }
-            });
-
-        });
-    }
-
-    function updateCartStorage(){
-        localStorage.setItem('cart', JSON.stringify(cart));
-        updateCartDisplay();
-    }
+        console.log(cartItemsContainer.innerHTML)
         
+
+        const totalWithShipping = total + shippingCharges;  // calc. total with shipping charges.
     
-    // shows cart button on click      
-    cartButton.addEventListener('click', function(){
-        heroSection.classList.add('hidden');
-        productsSection.classList.add('hidden');  
-        productDetailsSection.classList.add('hidden');
-        cartSection.classList.remove('hidden');
-        renderCartItems();       
-    });
-    //on click to handle back
-    backToProductsBtn.addEventListener('click', () => {
-        productDetailsSection.classList.add('hidden');
-        cartSection.classList.add('hidden');
-        productsSection.classList.remove('hidden');
-        if(!heroSection.classList.contains('hidden')){
-            heroSection.classList.remove('hidden');
-        };
+
+        // updating the total amount.
+        cartTotalItems.textContent = cart.length; // updates item count
+        shippingChargesEl.textContent = `Shipping: $${shippingCharges.toFixed(2)}`; // updates shipping value
+        totalWithShippingEl.textContent = `$${totalWithShipping.toFixed(2)}`; // updates total + shipping value
+        orderSummary.classList.remove('hidden');  // shows order summary
+    }
+    handleQuantityChanges();
+}
+
+ function handleQuantityChanges(){
+    const decreaseButton = document.querySelectorAll('.decrease');
+    const increaseButton = document.querySelectorAll('.increase');
+
+    decreaseButton.forEach(button=>{
+        button.addEventListener('click', function(){
+            const productId = parseInt(this.getAttribute('data-product-id'));
+            const product =  cart.find(item=> item.id === productId);
+
+            if(product){
+                product.quantity -= 1;
+                if(product.quantity === 0){
+                    cart = cart.filter(item=> item.id !== productId);
+                }
+                updateCartStorage();
+                renderCartItems();
+            }
+        });
+
     });
 
-updateCartDisplay();
+    increaseButton.forEach(button=>{
+        button.addEventListener('click', function(){
+            const productId = parseInt(this.getAttribute('data-product-id'));
+            const product =  cart.find(item=> item.id === productId);
+
+            if(product){
+                product.quantity += 1;
+                updateCartStorage();
+                renderCartItems();
+            }
+        });
+
+    });
+}
+
+function updateCartStorage(){
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartDisplay();
+}
+    
+
+// shows cart button on click      
+cartButton.addEventListener('click', function(){
+    heroSection.classList.add('hidden');
+    productsSection.classList.add('hidden');  
+    productDetailsSection.classList.add('hidden');
+    cartSection.classList.remove('hidden');
+    renderCartItems();       
 });
+//on click to handle back
+backToProductsBtn.addEventListener('click', () => {
+    productDetailsSection.classList.add('hidden');
+    cartSection.classList.add('hidden');
+    productsSection.classList.remove('hidden');
+    heroSection.classList.add('hidden');
+})
 
 
+})
+
+generateProductCards();
